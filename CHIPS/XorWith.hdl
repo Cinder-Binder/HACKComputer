@@ -1,0 +1,26 @@
+/*
+* Xor 16 bit value with a single bit value.
+*/
+
+CHIP XorWith{
+    IN a[16], b;
+    OUT out[16];
+
+    PARTS:
+        Xor(a = a[0], b = b, out = out[0]);
+        Xor(a = a[0], b = b, out = out[0]);
+        Xor(a = a[0], b = b, out = out[0]);
+        Xor(a = a[0], b = b, out = out[0]);
+        Xor(a = a[0], b = b, out = out[0]);
+        Xor(a = a[0], b = b, out = out[0]);
+        Xor(a = a[0], b = b, out = out[0]);
+        Xor(a = a[0], b = b, out = out[0]);
+        Xor(a = a[0], b = b, out = out[0]);
+        Xor(a = a[0], b = b, out = out[0]);
+        Xor(a = a[0], b = b, out = out[0]);
+        Xor(a = a[0], b = b, out = out[0]);
+        Xor(a = a[0], b = b, out = out[0]);
+        Xor(a = a[0], b = b, out = out[0]);
+        Xor(a = a[0], b = b, out = out[0]);
+        Xor(a = a[0], b = b, out = out[0]);
+}

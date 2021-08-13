@@ -1,0 +1,17 @@
+/**
+ * Memory of 16 registers, each 16 bit-wide. Out holds the value
+ * stored at the memory location specified by address. If load==1, then 
+ * the in value is loaded into the memory location specified by address 
+ * (the loaded value will be emitted to out from the next time step onward).
+ */
+
+ CHIP RAM16{
+    IN in[16], load, address[4];
+    OUT out[16];
+
+    PARTS:
+        DMux(in = load, sel = address[3], a = ram8, b = ram16);
+        RAM8(in = in, load = ram8, address = address[0..2], out = ram8out);
+        RAM8(in = in, load  = ram16, address = address[0..2], out = ram16out);
+        Mux16(a = ram8out, b = ram16out, sel = address[3], out = out);
+ }

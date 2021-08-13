@@ -1,0 +1,78 @@
+CHIP Jmpl
+{
+    IN op,j[3], zr, ng;
+    OUT load, inc;
+
+    PARTS:
+    // if jump bits are 000, jump to next instruction
+        // And3(a= j[0], b= j[1], c= j[2], out = notinc);
+        // Not(in = notinc, out = incr);
+        // Not(in=op,out=inc);
+
+    // y = AD'E + ACD' + ABC + A'CDE' + A'BD'E' + ABDE'
+    // a = j1, b = j2, c = j3, d = zr, e = ng
+    
+    //     Not(in = j[0], out = notj1);
+    //     Not(in = zr, out = notzr);
+    //     Not(in = ng, out = notng);
+    //     Not(in = j[1], out = notj2);
+    // // ad'e O
+    //     And3(a= j[0], b= notzr, c= ng, out = first);
+    // // acd' X
+    //     // And3(a= j[0], b= j[2], c= notzr, out = second);
+    // // b'cd'
+    //     And3(a= notj2, b= j[2], c= notzr, out = second);
+    // // abc O
+    //     And3(a= j[0], b= j[1], c= j[2], out = third);
+    // // a'cde X
+    //     // And3(a= j[0], b= j[2], c= zr, out = fo);
+    //     // And(a=fo, b=ng, out=fourth);
+    // // bce'
+    //     And3(a= j[1], b= j[2], c= notng, out = fourth);    
+    // // a'bd'e' O
+    //     And3(a= notj1, b= j[1], c= notzr, out = fi);
+    //     And(a=fi, b=notng, out=fifth);
+    // // abde' O
+    //     And3(a= j[0], b= j[1], c= zr, out = si);
+    //     And(a=si, b=notng, out=sixth);
+
+    // // load logic
+    //     Or(a=first, b=second, out=orone);
+    //     Or(a=orone, b=third, out=ortwo);
+    //     Or(a=ortwo, b=fourth, out=orthree);
+    //     Or(a=orthree, b=fifth, out=orfour);
+    //     Or(a=orfour, b=sixth, out=finalor);
+
+    //     And(a=op, b=finalor, out=load, out=lout);
+        
+    //     Not(in=lout,out=inc);
+
+    Not(in=ng, out=notng);
+    Not(in=zr, out=notzr);
+
+    // out > 0
+        And(a=notzr, b=notng, out=zrng);
+    // out == 0
+        And(a=zr, b=notng, out=zrnotng);
+    // out >= 0
+        // not ng
+    // out < 0
+        And(a=notzr, b=ng, out=ngnotzr);
+    // out != 0
+        // not zr
+    // out <= 0
+        Xor(a=zr, b=ng, out=zrxorng);
+    
+    Mux8Way(a=false,b=zrng,c=zrnotng,d=notng,e=ngnotzr,f=notzr,g=zrxorng,h=true,sel=j,out = muxout);
+    And(a=muxout, b=op, out=load,out = l);
+    Not(in=l, out=inc);
+        
+    
+    
+
+    
+
+
+        
+        
+}
